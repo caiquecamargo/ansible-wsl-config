@@ -1,0 +1,23 @@
+---
+- name: Configure Developer Workstation
+  hosts: workstation
+
+  vars_files:
+    - environment_vars.yml
+
+  vars:
+    # --- Configuration Variables ---
+    user_home: "{{ ansible_env.HOME }}"
+    shell_config_file: "{{ user_home }}/.bashrc"
+    node_version: "--lts"
+    quarkus_version: "3.12.0"
+
+  roles:
+    - devtools # Must run first to install base packages
+    - common
+    - java
+    - rust
+    - node
+    - quarkus
+    - aws
+    - python

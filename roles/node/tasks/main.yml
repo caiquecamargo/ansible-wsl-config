@@ -1,0 +1,22 @@
+---
+- name: "INSTALL | NVM (Node Version Manager)"
+  block:
+    - name: "Download NVM installation script"
+      get_url:
+        url: "https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh"
+        dest: /tmp/nvm_install.sh
+        mode: '0755'
+    - name: "Execute NVM installation script"
+      command: /bin/bash /tmp/nvm_install.sh
+      args:
+        creates: "{{ user_home }}/.nvm/nvm.sh"
+
+- name: "INSTALL | Node.js via NVM"
+  ansible.builtin.shell:
+    cmd: |
+      export NVM_DIR="$HOME/.nvm"
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+      nvm install {{ node_version }}
+      nvm alias default {{ node_version }}
+    executable: /bin/bash
+    creates: "{{ user_home }}/.nvm/alias/default"

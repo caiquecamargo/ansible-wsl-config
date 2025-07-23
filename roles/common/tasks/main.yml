@@ -1,0 +1,37 @@
+---
+- name: "CONFIG | Git global settings"
+  when: git_user_name != "Your Name" and git_user_email != "your.email@example.com"
+  block:
+    - name: "CONFIG | Git user name"
+      community.general.git_config:
+        name: user.name
+        scope: global
+        value: "{{ git_user_name }}"
+    - name: "CONFIG | Git user email"
+      community.general.git_config:
+        name: user.email
+        scope: global
+        value: "{{ git_user_email }}"
+    - name: "CONFIG | Git default branch name"
+      community.general.git_config:
+        name: init.defaultBranch
+        scope: global
+        value: main
+    - name: "CONFIG | Git vscode as default editor"
+      community.general.git_config:
+        name: core.editor
+        scope: global
+        value: "code --wait"
+
+- name: "CONFIG | Shell environment"
+  blockinfile:
+    path: "{{ shell_config_file }}"
+    create: yes
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - Dev Tools"
+    block: |
+      # --- Custom Aliases ---
+      alias ls='eza --icons'
+      alias ll='eza -l --icons'
+      alias la='eza -la --icons'
+      alias cat='{{ bat_binary_name }}'
+      {{ fd_alias | default('') }}

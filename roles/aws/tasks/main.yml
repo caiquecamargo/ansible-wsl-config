@@ -1,0 +1,11 @@
+- name: "INSTALL | AWS Cli with curl"
+  ansible.builtin.shell:
+    cmd: 'curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && sudo ./aws/install'
+    executable: /bin/bash
+    creates: "/usr/local/bin/aws"
+
+- name: "INSTALL | AWS SAM"
+  ansible.builtin.shell:
+    cmd: 'wget "https://github.com/aws/aws-sam-cli/releases/latest/download/aws-sam-cli-linux-x86_64.zip" -O "aws-sam-cli.zip" && unzip aws-sam-cli.zip -d aws-sam-cli && sudo ./aws-sam-cli/install'
+    executable: /bin/bash
+    creates: "/usr/local/bin/aws"

@@ -1,0 +1,16 @@
+---
+- name: "INSTALL | Quarkus CLI"
+  become: true
+  block:
+    - name: "Download and unpack Quarkus CLI"
+      unarchive:
+        src: "https://github.com/quarkusio/quarkus/releases/download/{{ quarkus_version }}/quarkus-cli-{{ quarkus_version }}.tar.gz"
+        dest: "/opt/"
+        remote_src: yes
+        creates: "/opt/quarkus-cli-{{ quarkus_version }}"
+    - name: "Symlink Quarkus binary"
+      file:
+        src: "/opt/quarkus-cli-{{ quarkus_version }}/bin/quarkus"
+        dest: "/usr/local/bin/quarkus"
+        state: link
+        force: yes

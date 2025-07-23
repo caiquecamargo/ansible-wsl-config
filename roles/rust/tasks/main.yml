@@ -1,0 +1,46 @@
+---
+- name: "INSTALL | Rust via rustup"
+  block:
+    - name: "Download rustup installer"
+      get_url:
+        url: "https://sh.rustup.rs"
+        dest: "/tmp/rustup-init.sh"
+        mode: '0755'
+    - name: "Run rustup installer"
+      command: /tmp/rustup-init.sh -y --no-modify-path
+      args:
+        creates: "{{ user_home }}/.cargo/bin/rustup"
+    - name: "Add rustup to the PATH"
+      lineinfile:
+        path: "{{ shell_config_file }}"
+        line: 'export PATH="{{ user_home }}/.cargo/bin:$PATH"'
+        create: yes
+        regexp: '^export PATH="?{{ user_home }}/\.cargo/bin:.*$'
+
+- name: "INSTALL | Rustscan with Cargo"
+  ansible.builtin.shell:
+    cmd: 'source {{ shell_config_file }} && cargo install rustscan --locked'
+    executable: /bin/bash
+    creates: "{{ user_home }}/.cargo/bin/rustscan"
+
+- name: "INSTALL | Starship with Cargo"
+  ansible.builtin.shell:
+    cmd: 'source {{ shell_config_file }} && cargo install starship --locked'
+    executable: /bin/bash
+    creates: "{{ user_home }}/.cargo/bin/starship"
+
+- name: "INSTALL | Atuin with Cargo"
+  ansible.builtin.shell:
+    cmd: 'source {{ shell_config_file }} && cargo install atuin --locked'
+    executable: /bin/bash
+    creates: "{{ user_home }}/.cargo/bin/atuin"
+
+- name: "CONFIG | Shell environment with Rust tools"
+  blockinfile:
+    path: "{{ shell_config_file }}"
+    create: yes
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - Rust Tools"
+    block: |
+      # --- Shell Integrations ---
+      eval "$(starship init bash --print-full-init)"
+      eval "$(atuin init bash --disable-up-arrow)"

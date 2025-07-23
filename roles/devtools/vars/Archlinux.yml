@@ -1,0 +1,14 @@
+---
+base_packages:
+  - base-devel
+  - git
+  - curl
+  - wget
+  - unzip
+devtools_packages:
+  - fd
+  - fzf
+  - eza
+  - bat
+  - just
+bat_binary_name: "batcat"

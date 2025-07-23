@@ -1,0 +1,15 @@
+---
+base_packages:
+  - build-essential
+  - git
+  - curl
+  - wget
+  - unzip
+devtools_packages:
+  - fd-find  # Note: The package is fd-find
+  - fzf
+  - eza
+  - bat      # Note: The package is bat
+  - just
+bat_binary_name: "bat"
+fd_alias: "alias fd='fdfind'"
