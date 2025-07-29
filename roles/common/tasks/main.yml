@@ -35,3 +35,6 @@
       alias la='eza -la --icons'
       alias cat='{{ bat_binary_name }}'
       {{ fd_alias | default('') }}
+
+      # --- Custom Environment Variables ---
+      export BROWSER='powershell.exe -c "Start-Process"'
