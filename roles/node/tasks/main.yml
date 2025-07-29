@@ -20,3 +20,15 @@
       nvm alias default {{ node_version }}
     executable: /bin/bash
     creates: "{{ user_home }}/.nvm/alias/default"
+
+- name: "INSTALL | Yarn package manager"
+  ansible.builtin.shell:
+    cmd: npm install -g yarn
+    executable: /bin/bash
+    creates: "{{ user_home }}/.nvm/versions/node/{{ node_version }}/lib/node_modules/yarn/bin/yarn"
+
+- name: "INSTALL | PNPM package manager"
+  ansible.builtin.shell:
+    cmd: npm install -g pnpm
+    executable: /bin/bash
+    creates: "{{ user_home }}/.nvm/versions/node/{{ node_version }}/lib/node_modules/pnpm/bin/pnpm"
